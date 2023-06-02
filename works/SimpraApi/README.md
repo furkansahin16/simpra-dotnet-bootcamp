@@ -1,7 +1,10 @@
 # SimpraApi
 
 ## Project Description
-SimpraApi is an API project that enables CRUD operations on `Product`, `User` and `Category` entities. It is built using ASP.NET Core Web API 6.0. This project utilizes various technologies and frameworks, including:
+SimpraApi is an API project that enables CRUD operations on `Product`, `User` and `Category` entities. This project is also developing regularly. New technologies
+will be integrated simultaneously with the bootcamp.
+
+It is built using ASP.NET Core Web API 6.0. This project utilizes various technologies and frameworks, including:
 
 - Entity Framework
 - Serilog
