@@ -9,6 +9,6 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommandReq
         RuleFor(x => x.Email).ValidateEmail();
         RuleFor(x => x.Password).ValidatePassword();
         RuleFor(x => new { x.Password, x.PasswordRetry })
-            .Must(x => x.Password == x.PasswordRetry).WithMessage("Passwords do not match");
+            .Must(x => x.Password == x.PasswordRetry).WithMessage(Messages.Validation.PasswordConfirm);
     }
 }

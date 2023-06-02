@@ -5,7 +5,7 @@ public class CreateUserCommandHandler : CreateCommandHandler<User, CreateUserCom
     public override async Task<IResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
     {
         if (await EmailExist(request.Email))
-            return new ErrorResponse(Messages.EmailError.Format(request.Email), HttpStatusCode.Forbidden);
+            return new ErrorResponse(Messages.User.InvalidEmail.Format(request.Email), HttpStatusCode.Forbidden);
         return await base.Handle(request, cancellationToken);
     }
     private async Task<bool> EmailExist(string email)

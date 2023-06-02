@@ -22,18 +22,20 @@ public class LoginHandler : IRequestHandler<LoginRequest, IResponse>
 
         if (user is null || !request.Password.VerifyPassword(user.Password))
         {
-            AddPasswordRetryError(user);
-            return new ErrorResponse(Messages.TokenError, HttpStatusCode.BadRequest);
+            await AddPasswordRetryError(user);
+            return new ErrorResponse(Messages.User.LoginError, HttpStatusCode.BadRequest);
         }
 
         if (user.Status == Status.Blocked)
-            return new ErrorResponse(Messages.Blocked, HttpStatusCode.Forbidden);
+            return new ErrorResponse(Messages.User.Blocked, HttpStatusCode.Forbidden);
 
         user.LastActivity = DateTime.UtcNow;
+        user.PasswordRetryCount = 0;
         await _unitOfWork.SaveChangesAsync();
 
         string token = _tokenService.GenerateToken(GetClaims(user));
-        return new SuccessDataResponse<AuthResult>(new AuthResult(user.Email, token, TimeSpan.FromMinutes(_jwtConfig.AccessTokenExpiration).ToString()));
+        Log.Information(Messages.Log.UserSignedIn, user.ToString());
+        return new SuccessDataResponse<AuthResult>(new AuthResult(user.Email, token, TimeSpan.FromMinutes(_jwtConfig.AccessTokenExpiration).ToString()), Messages.User.LoginSuccess.Format(user.FullName), HttpStatusCode.OK);
     }
 
     private Claim[] GetClaims(User user)
@@ -54,12 +56,17 @@ public class LoginHandler : IRequestHandler<LoginRequest, IResponse>
         return claims;
     }
 
-    private async void AddPasswordRetryError(User? user)
+    private async Task AddPasswordRetryError(User? user)
     {
         if (user is not null && user.Status != Status.Blocked)
         {
             user.PasswordRetryCount++;
-            if (user.PasswordRetryCount == 3) user.Status = Status.Blocked;
+            Log.Warning(Messages.Log.UserPasswordError, user.ToString(), user.PasswordRetryCount);
+            if (user.PasswordRetryCount == 3)
+            {
+                user.Status = Status.Blocked;
+                Log.Warning(Messages.Log.UserBlocked, user.ToString());
+            }
             await _unitOfWork.GetRepository<User>().UpdateAsync(user);
             await _unitOfWork.SaveChangesAsync();
         }

@@ -7,12 +7,12 @@ public class CreateProductCommandHandler : CreateCommandHandler<Product, CreateP
     {
         if (await Repository.AnyAsync(x => x.Name == request.Name.NormalizeString(), true))
         {
-            return new ErrorResponse(Messages.UniqueFieldError.Format("Name", request.Name), HttpStatusCode.Forbidden);
+            return new ErrorResponse(Messages.Error.UniqueField.Format("Name", request.Name), HttpStatusCode.Forbidden);
         }
         var category = await UnitOfWork.GetRepository<Category>().GetAsync(x => x.Id == Guid.Parse(request.CategoryId));
         if (category is null)
         {
-            return new ErrorResponse(Messages.GetError.Format(nameof(Category), request.CategoryId.ToString()), HttpStatusCode.NotFound);
+            return new ErrorResponse(Messages.Error.Get.Format(nameof(Category), request.CategoryId.ToString()), HttpStatusCode.NotFound);
         }
 
         return await base.Handle(request, cancellationToken);

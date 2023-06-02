@@ -25,6 +25,7 @@ public class TokenService : ITokenService
             expires: DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpiration),
             signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature));
 
+        Log.Information(Messages.Log.Token, claims.First(x => x.Type == ClaimTypes.Email).Value);
         return new JwtSecurityTokenHandler().WriteToken(jwtToken);
     }
 }

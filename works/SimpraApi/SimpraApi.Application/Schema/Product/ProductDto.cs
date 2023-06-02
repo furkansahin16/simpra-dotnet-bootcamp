@@ -8,6 +8,6 @@ public class ProductDto : EntityResponse
     public string Tag { get; set; } = null!;
 
     [JsonIgnore]
-    public int CategoryId { get; set; }
+    public string CategoryId { get; set; } = null!;
     public CategoryDto Category { get; set; } = null!;
 }

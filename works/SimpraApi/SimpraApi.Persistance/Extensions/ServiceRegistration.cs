@@ -16,11 +16,11 @@ public static class ServiceRegistration
     {
         string? dbType = configuration.GetConnectionString("DbType");
 
-        if (string.IsNullOrEmpty(dbType)) throw new ArgumentException(Messages.DbTypeError);
+        if (string.IsNullOrEmpty(dbType)) throw new ArgumentException(Messages.Error.DbType);
 
         string? dbConfig = configuration.GetConnectionString(dbType);
 
-        if (string.IsNullOrEmpty(dbConfig)) throw new ArgumentException(Messages.ConnectionStringError);
+        if (string.IsNullOrEmpty(dbConfig)) throw new ArgumentException(Messages.Error.ConnectionString);
 
         services.AddDbContext<SimpraDbContext>(opt =>
         {
@@ -28,7 +28,7 @@ public static class ServiceRegistration
             {
                 "MsSql" => opt.UseSqlServer(dbConfig, cfg => cfg.EnableRetryOnFailure()),
                 "PostgreSql" => opt.UseNpgsql(dbConfig, cfg => cfg.EnableRetryOnFailure()),
-                _ => throw new ArgumentException(Messages.DbTypeError)
+                _ => throw new ArgumentException(Messages.Error.DbType)
             };
         });
 

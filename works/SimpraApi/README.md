@@ -59,14 +59,23 @@ To install the migration and create the database using Entity Framework, you hav
 1. **Command Line**:
    - Open a command prompt in the project's root directory.
    - Navigate to the project directory: `cd SimpraApi`
-   - Create migration: `dotnet ef migrations add [MigrationName] --project "./SimpraApi.Data" -s "./SimpraApi.Service"`
+   - Create migration: `dotnet ef migrations add [MigrationName] --project "./SimpraApi.Persistance" -s "./SimpraApi.Service"`
    - Update database: `dotnet ef database update --project "./SimpraApi.Service" --startup-project "./SimpraApi.Service"`
 
 2. **Package Manager Console**:
    - Open the package manager console in Visual Studio.
-   - Select the 'SimpraApi.Data' from 'Default project' dropdown.
+   - Select the 'SimpraApi.Persistance' from 'Default project' dropdown.
    - Create migration: `add migration [MigrationName]`
    - Update database: `update database`
+
+**Admin:**
+
+```json
+{
+"email": "admin@simpra.com",
+"password": "admin"
+}
+```
 
 ### Swagger Integration
 The SimpraApi project includes Swagger integration for easy API exploration. After running project locally, you can access the Swagger UI using the following URL:

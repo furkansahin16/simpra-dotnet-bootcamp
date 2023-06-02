@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SimpraApi.Persistance.EntityFramework;
 
 #nullable disable
@@ -12,53 +12,53 @@ using SimpraApi.Persistance.EntityFramework;
 namespace SimpraApi.Persistance.Migrations
 {
     [DbContext(typeof(SimpraDbContext))]
-    [Migration("20230601110039_mig1")]
-    partial class mig1
+    [Migration("20230602163420_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("SimpraApi.Domain.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("Id");
 
@@ -75,8 +75,8 @@ namespace SimpraApi.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4129),
+                            Id = new Guid("9a06c1dd-b246-4c95-a570-0edbd496a69a"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4345),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Games",
@@ -85,28 +85,8 @@ namespace SimpraApi.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("82a5e90d-a08c-430e-a04d-df0dee8bf17e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4649),
-                            CreatedBy = "admin",
-                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Shoes",
-                            Status = "added",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4668),
-                            CreatedBy = "admin",
-                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Garden",
-                            Status = "added",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("b3787a64-206d-40c0-a677-3852dd9f9ba3"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4680),
+                            Id = new Guid("7f8c207e-2e58-48ef-a109-8aced3a0384f"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4760),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Kids",
@@ -115,18 +95,38 @@ namespace SimpraApi.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3434d6e3-9e09-4a0e-8cfc-db303f22bb48"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4690),
+                            Id = new Guid("645648a5-69ee-4494-bd3c-f7ff58e798ca"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4780),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Outdoors",
+                            Name = "Electronics",
                             Status = "added",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("ba920d3f-56a1-45f3-b9cf-9c0d0a87669e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4777),
+                            Id = new Guid("e0672d1b-4077-482d-98b4-e95d4aaf3a81"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4791),
+                            CreatedBy = "admin",
+                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Movies",
+                            Status = "added",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("7145b74f-6789-48ea-9363-d01074fb65b5"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4800),
+                            CreatedBy = "admin",
+                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Health",
+                            Status = "added",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4810),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Industrial",
@@ -135,41 +135,41 @@ namespace SimpraApi.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c7d60216-04d6-45eb-9dce-50a247842e59"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4790),
-                            CreatedBy = "admin",
-                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Tools",
-                            Status = "added",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("3c544090-0835-4a05-b116-a62e5eddd57f"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4800),
-                            CreatedBy = "admin",
-                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Toys",
-                            Status = "added",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("36a4ff40-013b-4be3-ade7-c0aac4f2b8a4"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4809),
-                            CreatedBy = "admin",
-                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Books",
-                            Status = "added",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 937, DateTimeKind.Utc).AddTicks(4821),
+                            Id = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4819),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Sports",
+                            Status = "added",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("48537adc-4408-4c6f-af02-c48e4c1762e6"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4828),
+                            CreatedBy = "admin",
+                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Outdoors",
+                            Status = "added",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("e6acfc95-4ed3-4ed8-bba5-3b8dbc1afe20"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4848),
+                            CreatedBy = "admin",
+                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Garden",
+                            Status = "added",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 24, DateTimeKind.Utc).AddTicks(4858),
+                            CreatedBy = "admin",
+                            DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Home",
                             Status = "added",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -179,50 +179,50 @@ namespace SimpraApi.Persistance.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Tag")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -241,653 +241,653 @@ namespace SimpraApi.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6b760616-87d1-473c-bb37-43a5cb6bf1f0"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(1264),
+                            Id = new Guid("4d044ef5-8d71-47b2-8095-4a1a65e9f0a4"),
+                            CategoryId = new Guid("9a06c1dd-b246-4c95-a570-0edbd496a69a"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(5627),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Rustic Cotton Bike",
+                            Name = "Sleek Granite Salad",
                             Status = "added",
-                            Tag = "0665226823729",
+                            Tag = "9576846097210",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://jamir.name"
+                            Url = "https://amos.name"
                         },
                         new
                         {
-                            Id = new Guid("f36cc540-0961-44ad-9dd3-0bbbcf90cdbb"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(1818),
+                            Id = new Guid("8c585822-143d-4bb4-b093-4867411a5464"),
+                            CategoryId = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6221),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Tasty Rubber Table",
+                            Name = "Small Frozen Hat",
                             Status = "added",
-                            Tag = "5885445599976",
+                            Tag = "1954375614173",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://tabitha.com"
+                            Url = "https://alexys.org"
                         },
                         new
                         {
-                            Id = new Guid("162d35f1-31e1-47fa-9ab2-eaf8267a6ca8"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2058),
+                            Id = new Guid("7d2a9097-f10c-4d9c-afe6-bce66434edc2"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6301),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Intelligent Granite Chips",
+                            Name = "Small Granite Sausages",
                             Status = "added",
-                            Tag = "5567101835931",
+                            Tag = "6414281869517",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://arnold.net"
+                            Url = "http://myrl.biz"
                         },
                         new
                         {
-                            Id = new Guid("e4bc1c8e-e730-4990-b6b2-d6398de7540d"),
-                            CategoryId = new Guid("3434d6e3-9e09-4a0e-8cfc-db303f22bb48"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2117),
+                            Id = new Guid("749dfe35-22e4-452d-a52a-dcaffc124d42"),
+                            CategoryId = new Guid("e0672d1b-4077-482d-98b4-e95d4aaf3a81"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6357),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handcrafted Steel Pants",
+                            Name = "Practical Plastic Bike",
                             Status = "added",
-                            Tag = "1031280686522",
+                            Tag = "2282687850385",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://devyn.org"
+                            Url = "http://melody.net"
                         },
                         new
                         {
-                            Id = new Guid("be222974-26f2-4ce5-a3ba-9c5b12b74543"),
-                            CategoryId = new Guid("ba920d3f-56a1-45f3-b9cf-9c0d0a87669e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2167),
+                            Id = new Guid("4d374591-d5ee-4a95-ad43-2321bd3aeb9c"),
+                            CategoryId = new Guid("e6acfc95-4ed3-4ed8-bba5-3b8dbc1afe20"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6404),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Generic Fresh Hat",
+                            Name = "Tasty Granite Ball",
                             Status = "added",
-                            Tag = "0531412637190",
+                            Tag = "1936719722874",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://rebekah.name"
+                            Url = "http://zachery.org"
                         },
                         new
                         {
-                            Id = new Guid("bd4fd02f-8a9a-4449-a75a-6a7e0b03afab"),
-                            CategoryId = new Guid("b3787a64-206d-40c0-a677-3852dd9f9ba3"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2218),
+                            Id = new Guid("89307360-e1d2-4bb9-9170-96e169f8954d"),
+                            CategoryId = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6492),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ergonomic Wooden Shoes",
+                            Name = "Incredible Steel Mouse",
                             Status = "added",
-                            Tag = "8440962140932",
+                            Tag = "4559156554500",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://damion.net"
+                            Url = "https://jaylen.name"
                         },
                         new
                         {
-                            Id = new Guid("d04e3063-1d64-4079-805a-988996d196a5"),
-                            CategoryId = new Guid("c7d60216-04d6-45eb-9dce-50a247842e59"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2265),
+                            Id = new Guid("cc5b60fd-bed9-4cdf-aa7d-68ee5fd3512d"),
+                            CategoryId = new Guid("645648a5-69ee-4494-bd3c-f7ff58e798ca"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6554),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Incredible Concrete Sausages",
+                            Name = "Rustic Metal Pants",
                             Status = "added",
-                            Tag = "2953144852401",
+                            Tag = "4079254969698",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://lori.org"
+                            Url = "http://shanie.com"
                         },
                         new
                         {
-                            Id = new Guid("7237f793-958c-4355-8467-36ce27405977"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2318),
+                            Id = new Guid("f720db3e-8c50-4bbe-9465-663583bb22d8"),
+                            CategoryId = new Guid("48537adc-4408-4c6f-af02-c48e4c1762e6"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6603),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Rustic Rubber Shoes",
+                            Name = "Gorgeous Metal Towels",
                             Status = "added",
-                            Tag = "0584829455024",
+                            Tag = "7937545162654",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://gaston.org"
+                            Url = "http://hardy.name"
                         },
                         new
                         {
-                            Id = new Guid("3b949ed2-9106-447b-a82e-5e30c83b09d3"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2456),
+                            Id = new Guid("3343a58f-e897-4c04-94c3-ab2119af8f99"),
+                            CategoryId = new Guid("7145b74f-6789-48ea-9363-d01074fb65b5"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6649),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Awesome Soft Fish",
+                            Name = "Ergonomic Rubber Cheese",
                             Status = "added",
-                            Tag = "8278757602187",
+                            Tag = "2492864289123",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://collin.org"
+                            Url = "https://carleton.org"
                         },
                         new
                         {
-                            Id = new Guid("8782867e-0529-4e28-b8ca-9ebf8dbd2484"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2510),
+                            Id = new Guid("a7cd6192-5e1e-417d-89d2-15390a144901"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6696),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Tasty Soft Chips",
+                            Name = "Small Rubber Shoes",
                             Status = "added",
-                            Tag = "3773308626339",
+                            Tag = "0698719828994",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://darlene.name"
+                            Url = "http://ubaldo.com"
                         },
                         new
                         {
-                            Id = new Guid("05861dae-2ee5-4356-aac6-6b03197055e3"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2553),
+                            Id = new Guid("6d454bb2-4087-427b-bfa6-90d06cf324d3"),
+                            CategoryId = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6743),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handcrafted Rubber Soap",
+                            Name = "Rustic Soft Cheese",
                             Status = "added",
-                            Tag = "9720759112038",
+                            Tag = "0906042053663",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://gillian.name"
+                            Url = "https://alphonso.name"
                         },
                         new
                         {
-                            Id = new Guid("2b8adbf5-f2b6-4a0c-ad96-ee822c45f888"),
-                            CategoryId = new Guid("36a4ff40-013b-4be3-ade7-c0aac4f2b8a4"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2597),
+                            Id = new Guid("c06fead6-0f2b-4de4-bf74-d87fbdbae060"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6786),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handmade Cotton Sausages",
+                            Name = "Practical Plastic Tuna",
                             Status = "added",
-                            Tag = "1617952992858",
+                            Tag = "9033617376535",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://brenna.info"
+                            Url = "http://adolf.net"
                         },
                         new
                         {
-                            Id = new Guid("8e6b60ea-4941-428b-96f0-fec3bb438956"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2640),
+                            Id = new Guid("c60b4f65-4639-4fe0-851b-9e176e4df592"),
+                            CategoryId = new Guid("48537adc-4408-4c6f-af02-c48e4c1762e6"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6872),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Refined Plastic Chips",
+                            Name = "Ergonomic Concrete Pants",
                             Status = "added",
-                            Tag = "0016449091110",
+                            Tag = "1009670987450",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://kaylah.com"
+                            Url = "http://name.com"
                         },
                         new
                         {
-                            Id = new Guid("49c6cf29-1a28-4ce9-9338-37c43eff09b9"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2683),
+                            Id = new Guid("644cc614-a7d0-448c-a622-1350091b4eba"),
+                            CategoryId = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6921),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Gorgeous Concrete Car",
+                            Name = "Tasty Metal Mouse",
                             Status = "added",
-                            Tag = "5728384315446",
+                            Tag = "8597200257560",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://rene.com"
+                            Url = "https://amie.name"
                         },
                         new
                         {
-                            Id = new Guid("0e1ffb65-ae28-46ae-a35f-00ced8dd29f0"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2768),
+                            Id = new Guid("47733c06-0193-4c85-a9f9-a6155cf6ede9"),
+                            CategoryId = new Guid("7f8c207e-2e58-48ef-a109-8aced3a0384f"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(6968),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handmade Concrete Pizza",
+                            Name = "Fantastic Plastic Computer",
                             Status = "added",
-                            Tag = "3118809384744",
+                            Tag = "6410275666469",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://kristoffer.net"
+                            Url = "https://kira.org"
                         },
                         new
                         {
-                            Id = new Guid("153fa0aa-5cc5-450b-a064-cf5c072f2b6d"),
-                            CategoryId = new Guid("3c544090-0835-4a05-b116-a62e5eddd57f"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2822),
+                            Id = new Guid("614d2053-1c6c-4828-b4c6-03d419cdfc4f"),
+                            CategoryId = new Guid("7145b74f-6789-48ea-9363-d01074fb65b5"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7012),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Refined Cotton Computer",
+                            Name = "Sleek Frozen Keyboard",
                             Status = "added",
-                            Tag = "1657338706549",
+                            Tag = "9526809231427",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://naomi.name"
+                            Url = "https://heidi.net"
                         },
                         new
                         {
-                            Id = new Guid("9d41c785-9c82-489d-939b-335b3c551455"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2867),
+                            Id = new Guid("1dcd8991-5627-4a7e-a0d7-35a86c823453"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7056),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handcrafted Wooden Bike",
+                            Name = "Ergonomic Granite Keyboard",
                             Status = "added",
-                            Tag = "5904335763157",
+                            Tag = "9438709288176",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://elvera.net"
+                            Url = "http://krystina.com"
                         },
                         new
                         {
-                            Id = new Guid("6308326f-e23c-4f5c-a6fe-733a861ad170"),
-                            CategoryId = new Guid("82a5e90d-a08c-430e-a04d-df0dee8bf17e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2910),
+                            Id = new Guid("fbf057f7-a030-4962-a53d-50b9eb95d3b5"),
+                            CategoryId = new Guid("48537adc-4408-4c6f-af02-c48e4c1762e6"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7100),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ergonomic Wooden Ball",
+                            Name = "Handcrafted Fresh Chips",
                             Status = "added",
-                            Tag = "0551357600288",
+                            Tag = "9641799918834",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://osvaldo.info"
+                            Url = "http://cortney.com"
                         },
                         new
                         {
-                            Id = new Guid("5484e15d-2cf3-44b0-829e-a77d89838995"),
-                            CategoryId = new Guid("36a4ff40-013b-4be3-ade7-c0aac4f2b8a4"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2954),
+                            Id = new Guid("29e6057f-a9c3-4913-9729-73ce676a2616"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7183),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Incredible Plastic Bike",
+                            Name = "Awesome Concrete Sausages",
                             Status = "added",
-                            Tag = "7837489966670",
+                            Tag = "7190227454472",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://concepcion.com"
+                            Url = "https://ashly.com"
                         },
                         new
                         {
-                            Id = new Guid("e7bf459d-ed87-4806-98f9-37c3544e94c7"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(2996),
+                            Id = new Guid("aafba511-7b95-42c2-9b0a-4201cec2d8d5"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7232),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Intelligent Metal Gloves",
+                            Name = "Incredible Plastic Ball",
                             Status = "added",
-                            Tag = "7459911408956",
+                            Tag = "6962729415517",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://johnpaul.org"
+                            Url = "https://daphne.name"
                         },
                         new
                         {
-                            Id = new Guid("69e12d75-4ea7-4666-ba10-d1751414d19a"),
-                            CategoryId = new Guid("b3787a64-206d-40c0-a677-3852dd9f9ba3"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3040),
+                            Id = new Guid("0e8361b2-da21-45fd-948a-1a5f718f65d5"),
+                            CategoryId = new Guid("7f8c207e-2e58-48ef-a109-8aced3a0384f"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7277),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Intelligent Concrete Chips",
+                            Name = "Awesome Steel Bike",
                             Status = "added",
-                            Tag = "2455902107889",
+                            Tag = "0354673901639",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://paris.net"
+                            Url = "http://emelie.net"
                         },
                         new
                         {
-                            Id = new Guid("22230984-97d5-4ebf-8925-0e5d7854e263"),
-                            CategoryId = new Guid("b3787a64-206d-40c0-a677-3852dd9f9ba3"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3127),
+                            Id = new Guid("aeacabfd-4108-4a25-9b6a-a90ef1713327"),
+                            CategoryId = new Guid("645648a5-69ee-4494-bd3c-f7ff58e798ca"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7321),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Small Fresh Shoes",
+                            Name = "Handmade Steel Towels",
                             Status = "added",
-                            Tag = "8800376689500",
+                            Tag = "4478365849750",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://rubye.net"
+                            Url = "https://dusty.net"
                         },
                         new
                         {
-                            Id = new Guid("05ac380a-9afb-408d-a466-bc557b8ff068"),
-                            CategoryId = new Guid("ba920d3f-56a1-45f3-b9cf-9c0d0a87669e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3171),
+                            Id = new Guid("5674f136-8197-497d-a469-9899e6c1a490"),
+                            CategoryId = new Guid("e6acfc95-4ed3-4ed8-bba5-3b8dbc1afe20"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7367),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Incredible Metal Towels",
+                            Name = "Fantastic Cotton Chips",
                             Status = "added",
-                            Tag = "2149179200236",
+                            Tag = "6678811509896",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://hermina.org"
+                            Url = "http://edgardo.org"
                         },
                         new
                         {
-                            Id = new Guid("13164e36-a80d-4006-9474-32026098d36f"),
-                            CategoryId = new Guid("3c544090-0835-4a05-b116-a62e5eddd57f"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3221),
+                            Id = new Guid("60fa8466-82c1-46e4-8759-748c8c3f78be"),
+                            CategoryId = new Guid("645648a5-69ee-4494-bd3c-f7ff58e798ca"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7412),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Refined Rubber Table",
+                            Name = "Fantastic Fresh Sausages",
                             Status = "added",
-                            Tag = "9550532792399",
+                            Tag = "1292933088531",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://hillary.name"
+                            Url = "http://ayden.org"
                         },
                         new
                         {
-                            Id = new Guid("e95449ee-e81f-404b-bd08-0c837e9e8226"),
-                            CategoryId = new Guid("c7d60216-04d6-45eb-9dce-50a247842e59"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3263),
+                            Id = new Guid("cd4b7a1c-f163-41a5-b851-a7d2594d02a3"),
+                            CategoryId = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7454),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handmade Cotton Chair",
+                            Name = "Incredible Concrete Chips",
                             Status = "added",
-                            Tag = "0506061308883",
+                            Tag = "8272757901370",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://trevion.net"
+                            Url = "https://nicklaus.net"
                         },
                         new
                         {
-                            Id = new Guid("566a38ba-dc27-4cd1-b1bd-e4580f906260"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3305),
+                            Id = new Guid("ac4cda7e-04af-472d-a8dd-b69dab9793b2"),
+                            CategoryId = new Guid("e0672d1b-4077-482d-98b4-e95d4aaf3a81"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7541),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Awesome Frozen Salad",
+                            Name = "Generic Granite Cheese",
                             Status = "added",
-                            Tag = "0254524714930",
+                            Tag = "2936020335557",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://berry.org"
+                            Url = "http://garrett.biz"
                         },
                         new
                         {
-                            Id = new Guid("7b310c63-754e-424e-886a-b423798822ce"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3348),
+                            Id = new Guid("24cb83ea-74f6-490e-85e6-9938541308a8"),
+                            CategoryId = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7587),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Licensed Steel Computer",
+                            Name = "Ergonomic Rubber Shirt",
                             Status = "added",
-                            Tag = "7717636099171",
+                            Tag = "2951028120714",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://clovis.com"
+                            Url = "https://luciano.biz"
                         },
                         new
                         {
-                            Id = new Guid("6bb3a7ef-d305-44e5-8e4e-8d76280e2143"),
-                            CategoryId = new Guid("3c544090-0835-4a05-b116-a62e5eddd57f"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3432),
+                            Id = new Guid("9e03e708-ae37-49eb-afdc-43dc91c47480"),
+                            CategoryId = new Guid("9a06c1dd-b246-4c95-a570-0edbd496a69a"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7630),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Intelligent Plastic Chair",
+                            Name = "Sleek Soft Fish",
                             Status = "added",
-                            Tag = "5295507660702",
+                            Tag = "3893934566547",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://brant.net"
+                            Url = "https://connor.biz"
                         },
                         new
                         {
-                            Id = new Guid("06cdf3a0-8db1-4632-9a52-d00f307f76fd"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3477),
+                            Id = new Guid("b9277744-92ba-4d33-8fe2-2c2a16403371"),
+                            CategoryId = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7675),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Fantastic Plastic Sausages",
+                            Name = "Licensed Metal Ball",
                             Status = "added",
-                            Tag = "8940767237528",
+                            Tag = "0475262519797",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://gabriel.biz"
+                            Url = "http://fleta.info"
                         },
                         new
                         {
-                            Id = new Guid("c2b955d3-670b-43bc-93b5-a00ea7fae912"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3520),
+                            Id = new Guid("c0ec624a-824b-4f1a-a4d4-62e77762dcb2"),
+                            CategoryId = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7717),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Sleek Steel Car",
+                            Name = "Ergonomic Wooden Bacon",
                             Status = "added",
-                            Tag = "6405390806289",
+                            Tag = "4913839374012",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://evie.com"
+                            Url = "https://chanelle.name"
                         },
                         new
                         {
-                            Id = new Guid("11728d5a-d461-448a-9b29-0a676bd2c785"),
-                            CategoryId = new Guid("36a4ff40-013b-4be3-ade7-c0aac4f2b8a4"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3563),
+                            Id = new Guid("94db3fe8-5793-4e67-b023-fd93d1d20ea4"),
+                            CategoryId = new Guid("7145b74f-6789-48ea-9363-d01074fb65b5"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7764),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ergonomic Rubber Table",
+                            Name = "Intelligent Frozen Ball",
                             Status = "added",
-                            Tag = "4672875155961",
+                            Tag = "1935714308076",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://kay.info"
+                            Url = "http://kitty.info"
                         },
                         new
                         {
-                            Id = new Guid("add0808c-1ef9-413b-9fe3-2f9e89fa5db9"),
-                            CategoryId = new Guid("36a4ff40-013b-4be3-ade7-c0aac4f2b8a4"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3608),
+                            Id = new Guid("2dac0c77-19cd-4862-a724-113f4564528d"),
+                            CategoryId = new Guid("9a06c1dd-b246-4c95-a570-0edbd496a69a"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7841),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ergonomic Concrete Tuna",
+                            Name = "Awesome Soft Computer",
                             Status = "added",
-                            Tag = "7049457594376",
+                            Tag = "4378780307838",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://elvera.biz"
+                            Url = "https://hal.name"
                         },
                         new
                         {
-                            Id = new Guid("980754e7-11eb-45fe-9c1e-45cf033bb828"),
-                            CategoryId = new Guid("ba920d3f-56a1-45f3-b9cf-9c0d0a87669e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3650),
+                            Id = new Guid("321300f3-3cca-42dc-b707-54b1977bd852"),
+                            CategoryId = new Guid("e0672d1b-4077-482d-98b4-e95d4aaf3a81"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7889),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Generic Plastic Sausages",
+                            Name = "Refined Frozen Pizza",
                             Status = "added",
-                            Tag = "3600004838707",
+                            Tag = "7454939440261",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://francisca.org"
+                            Url = "https://hailee.info"
                         },
                         new
                         {
-                            Id = new Guid("2f73f77e-8f3a-4573-92b1-0afa45ae7940"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3732),
+                            Id = new Guid("3ccdb491-e59c-4db6-bafb-73a1b78160eb"),
+                            CategoryId = new Guid("48537adc-4408-4c6f-af02-c48e4c1762e6"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7934),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Small Plastic Ball",
+                            Name = "Fantastic Rubber Hat",
                             Status = "added",
-                            Tag = "3231030376163",
+                            Tag = "2857183622721",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://kiarra.org"
+                            Url = "http://katelynn.info"
                         },
                         new
                         {
-                            Id = new Guid("e97c67bb-4e5e-42fd-84d0-1b87e1cad3e3"),
-                            CategoryId = new Guid("c7d60216-04d6-45eb-9dce-50a247842e59"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3779),
+                            Id = new Guid("3a84dbaa-ad67-4931-92f3-1f98730bad60"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(7978),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Awesome Plastic Cheese",
+                            Name = "Unbranded Wooden Tuna",
                             Status = "added",
-                            Tag = "7535127997146",
+                            Tag = "9974371990301",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://river.org"
+                            Url = "http://monte.info"
                         },
                         new
                         {
-                            Id = new Guid("f78b03f1-87ce-46b0-b117-abc0451d3264"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3823),
+                            Id = new Guid("86a76497-8a4a-4f26-aad2-ffae59df0132"),
+                            CategoryId = new Guid("e6acfc95-4ed3-4ed8-bba5-3b8dbc1afe20"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8022),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handcrafted Cotton Soap",
+                            Name = "Unbranded Steel Salad",
                             Status = "added",
-                            Tag = "2638520444295",
+                            Tag = "8204389640044",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://audreanne.info"
+                            Url = "http://luella.info"
                         },
                         new
                         {
-                            Id = new Guid("e53f8890-392d-4318-b626-c584ae0068ae"),
-                            CategoryId = new Guid("3c544090-0835-4a05-b116-a62e5eddd57f"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3867),
+                            Id = new Guid("32a0024a-0b4f-492e-934c-3f3a5f25a6d8"),
+                            CategoryId = new Guid("7f8c207e-2e58-48ef-a109-8aced3a0384f"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8066),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Awesome Rubber Mouse",
+                            Name = "Handmade Metal Pants",
                             Status = "added",
-                            Tag = "2524673101522",
+                            Tag = "2222723559827",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://kaylie.org"
+                            Url = "http://samson.biz"
                         },
                         new
                         {
-                            Id = new Guid("2b01e0bb-8e7f-4e1f-8076-c71d6e9a48dd"),
-                            CategoryId = new Guid("3434d6e3-9e09-4a0e-8cfc-db303f22bb48"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3910),
+                            Id = new Guid("02dbaf08-2bb0-4068-b3ce-ae328be96f1a"),
+                            CategoryId = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8164),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Fantastic Wooden Towels",
+                            Name = "Licensed Rubber Chair",
                             Status = "added",
-                            Tag = "5995063525506",
+                            Tag = "2396343321642",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://abbigail.info"
+                            Url = "https://andreanne.com"
                         },
                         new
                         {
-                            Id = new Guid("e6acc83f-e50a-449a-92fa-b99acf25c556"),
-                            CategoryId = new Guid("82a5e90d-a08c-430e-a04d-df0dee8bf17e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(3953),
+                            Id = new Guid("bac72417-8bd2-4199-bf6f-ecdd7befded6"),
+                            CategoryId = new Guid("21159e48-34b0-4312-ae46-d8d959a9f4e4"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8221),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Sleek Cotton Pants",
+                            Name = "Tasty Fresh Ball",
                             Status = "added",
-                            Tag = "4331135388005",
+                            Tag = "3110965368811",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://kip.info"
+                            Url = "http://evert.name"
                         },
                         new
                         {
-                            Id = new Guid("cd2bf314-610b-42df-96d4-a2806a006ff5"),
-                            CategoryId = new Guid("82a5e90d-a08c-430e-a04d-df0dee8bf17e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4002),
+                            Id = new Guid("a6248778-fed2-4b01-b479-4de733014c6b"),
+                            CategoryId = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8266),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Practical Granite Shoes",
+                            Name = "Generic Granite Ball",
                             Status = "added",
-                            Tag = "5067489769694",
+                            Tag = "2923353734065",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://alaina.biz"
+                            Url = "http://leland.biz"
                         },
                         new
                         {
-                            Id = new Guid("558913a5-80ed-4586-a66b-72965d634f03"),
-                            CategoryId = new Guid("155d034b-7971-4b00-b06f-e6b25fb6308b"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4112),
+                            Id = new Guid("a8dad9f9-dfa3-4bc8-8eed-8f53f4fd8494"),
+                            CategoryId = new Guid("48537adc-4408-4c6f-af02-c48e4c1762e6"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8308),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Fantastic Concrete Keyboard",
+                            Name = "Gorgeous Plastic Salad",
                             Status = "added",
-                            Tag = "0787817778154",
+                            Tag = "8559895909339",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://emily.org"
+                            Url = "http://adriel.com"
                         },
                         new
                         {
-                            Id = new Guid("c4d2a232-318c-4cf8-a20f-f1288ffd0750"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4158),
+                            Id = new Guid("40dcd584-b404-46d2-a4ee-1151c3a22273"),
+                            CategoryId = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8351),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Practical Frozen Chicken",
+                            Name = "Refined Rubber Pants",
                             Status = "added",
-                            Tag = "4387879413565",
+                            Tag = "2623108112628",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://everette.net"
+                            Url = "http://lavern.org"
                         },
                         new
                         {
-                            Id = new Guid("71a6f34a-9031-46fd-9906-d5b892b219c5"),
-                            CategoryId = new Guid("ba920d3f-56a1-45f3-b9cf-9c0d0a87669e"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4201),
+                            Id = new Guid("36ab90bb-cad4-4e1f-8b5f-b035a6e2c501"),
+                            CategoryId = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8394),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ergonomic Metal Keyboard",
+                            Name = "Fantastic Granite Cheese",
                             Status = "added",
-                            Tag = "9830406819019",
+                            Tag = "2233226529422",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://hope.name"
+                            Url = "http://naomi.name"
                         },
                         new
                         {
-                            Id = new Guid("f02847f8-c718-4851-9420-c0c6ecf52c22"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4243),
+                            Id = new Guid("23ddd884-895c-47ac-bd47-1c1e4c4e4442"),
+                            CategoryId = new Guid("9a06c1dd-b246-4c95-a570-0edbd496a69a"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8436),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Licensed Concrete Hat",
+                            Name = "Unbranded Fresh Car",
                             Status = "added",
-                            Tag = "7189905579262",
+                            Tag = "5606872516738",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://darius.info"
+                            Url = "http://anita.com"
                         },
                         new
                         {
-                            Id = new Guid("862c20b1-1a27-4292-9f89-0cb6ed8219e0"),
-                            CategoryId = new Guid("c7d60216-04d6-45eb-9dce-50a247842e59"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4286),
+                            Id = new Guid("27f8e31a-d15a-4fd8-a83c-38f89614812d"),
+                            CategoryId = new Guid("e6acfc95-4ed3-4ed8-bba5-3b8dbc1afe20"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8521),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Tasty Frozen Ball",
+                            Name = "Refined Concrete Tuna",
                             Status = "added",
-                            Tag = "8287777821164",
+                            Tag = "1455935950262",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://rossie.info"
+                            Url = "https://eliezer.biz"
                         },
                         new
                         {
-                            Id = new Guid("0d3adc1a-3a15-4ae4-9bdb-93ef41b1d058"),
-                            CategoryId = new Guid("36a4ff40-013b-4be3-ade7-c0aac4f2b8a4"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4327),
+                            Id = new Guid("0cd74a8a-895f-4d9a-9c30-ff56ba053073"),
+                            CategoryId = new Guid("9a06c1dd-b246-4c95-a570-0edbd496a69a"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8565),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Refined Steel Hat",
+                            Name = "Fantastic Concrete Towels",
                             Status = "added",
-                            Tag = "1385410514606",
+                            Tag = "6880293335867",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://ahmed.net"
+                            Url = "https://della.org"
                         },
                         new
                         {
-                            Id = new Guid("af67e60e-9493-4b12-b958-8402995c46d3"),
-                            CategoryId = new Guid("b32b9929-605a-4019-b03d-46c783fb3837"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4410),
+                            Id = new Guid("29c3da26-ab82-4e89-94a2-811883ac830b"),
+                            CategoryId = new Guid("41895378-3d39-4fe8-8533-df5fd1aa6ebb"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8613),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Intelligent Concrete Salad",
+                            Name = "Awesome Rubber Chair",
                             Status = "added",
-                            Tag = "2840361702025",
+                            Tag = "4283717858935",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://eliseo.net"
+                            Url = "http://flavie.name"
                         },
                         new
                         {
-                            Id = new Guid("e3437493-8bcc-4602-b11d-9991a07c8bff"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4459),
+                            Id = new Guid("b3022b16-1c6a-4ffe-b21e-9a676e01c3e2"),
+                            CategoryId = new Guid("e6acfc95-4ed3-4ed8-bba5-3b8dbc1afe20"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8655),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Unbranded Frozen Soap",
+                            Name = "Licensed Plastic Bike",
                             Status = "added",
-                            Tag = "8368232074056",
+                            Tag = "5130148524658",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://phoebe.info"
+                            Url = "http://eloisa.com"
                         },
                         new
                         {
-                            Id = new Guid("6f383a40-19eb-4d1f-8a33-2b4517b3b99e"),
-                            CategoryId = new Guid("c7d60216-04d6-45eb-9dce-50a247842e59"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4504),
+                            Id = new Guid("9e529494-5176-46dd-8b50-cc55d77c4a8d"),
+                            CategoryId = new Guid("7145b74f-6789-48ea-9363-d01074fb65b5"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8698),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Fantastic Metal Salad",
+                            Name = "Rustic Metal Ball",
                             Status = "added",
-                            Tag = "9584309446536",
+                            Tag = "6783595889734",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "http://turner.com"
+                            Url = "http://nedra.info"
                         },
                         new
                         {
-                            Id = new Guid("186084da-a820-47ee-8ed4-06a2de2d21ad"),
-                            CategoryId = new Guid("07b9025b-0dc2-4a0f-b7ed-dba4649cd1c0"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 940, DateTimeKind.Utc).AddTicks(4551),
+                            Id = new Guid("42d7dbd4-0a92-47f4-aedf-639cf0c5e33b"),
+                            CategoryId = new Guid("ce9c3933-d0fc-410e-8132-a9dc1e26a965"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 26, DateTimeKind.Utc).AddTicks(8741),
                             CreatedBy = "admin",
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Handmade Rubber Chips",
+                            Name = "Incredible Wooden Shoes",
                             Status = "added",
-                            Tag = "2712850646137",
+                            Tag = "4098625591894",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Url = "https://celestine.biz"
+                            Url = "https://jaclyn.com"
                         });
                 });
 
@@ -895,62 +895,64 @@ namespace SimpraApi.Persistance.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<DateTime>("LastActivity")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<byte[]>("Password")
                         .IsRequired()
-                        .HasColumnType("bytea");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("PasswordRetryCount")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("Id");
 
@@ -967,12 +969,12 @@ namespace SimpraApi.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f2429a8a-a58c-4f0b-9874-ae9c8b6ba1ed"),
-                            CreatedAt = new DateTime(2023, 6, 1, 11, 0, 38, 944, DateTimeKind.Utc).AddTicks(9783),
+                            Id = new Guid("f4df9be0-78af-4078-86b4-d1ba2919ee38"),
+                            CreatedAt = new DateTime(2023, 6, 2, 16, 34, 20, 30, DateTimeKind.Utc).AddTicks(9549),
                             DeletedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@simpra.com",
                             FirstName = "admin",
-                            LastActivity = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastActivity = new DateTime(2023, 6, 2, 16, 34, 20, 30, DateTimeKind.Utc).AddTicks(9551),
                             LastName = "admin",
                             Password = new byte[] { 140, 105, 118, 229, 181, 65, 4, 21, 189, 233, 8, 189, 77, 238, 21, 223, 177, 103, 169, 200, 115, 252, 75, 184, 168, 31, 111, 42, 180, 72, 169, 24 },
                             PasswordRetryCount = 0,

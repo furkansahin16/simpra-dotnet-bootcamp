@@ -10,7 +10,7 @@ public class ChangeUserRoleCommandValidator : AbstractValidator<ChangeUserRoleCo
 			.Must(role =>
 			string.Equals(role, Roles.Admin, StringComparison.OrdinalIgnoreCase) ||
 			string.Equals(role, Roles.Manager, StringComparison.OrdinalIgnoreCase) ||
-			string.Equals(role, Roles.Standart, StringComparison.OrdinalIgnoreCase)
-			).WithMessage("Invalid role name.('admin','manager','standart'");
+			string.Equals(role, Roles.Standard, StringComparison.OrdinalIgnoreCase)
+			).WithMessage(Messages.Validation.InvalidRole);
 	}
 }

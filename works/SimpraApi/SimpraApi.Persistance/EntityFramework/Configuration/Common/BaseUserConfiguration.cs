@@ -9,6 +9,7 @@ public class BaseUserConfiguration<TEntity> : SoftDeletableEntityConfiguration<T
         builder.Property(x => x.LastName).IsRequired().HasMaxLength(30);
         builder.Property(x => x.Email).IsRequired().HasMaxLength(64);
         builder.Property(x => x.Role).IsRequired().HasMaxLength(15);
+        builder.Property(x => x.PasswordRetryCount).IsRequired().HasDefaultValue(0);
 
         builder.HasIndex(x => x.Email).IsUnique();
     }

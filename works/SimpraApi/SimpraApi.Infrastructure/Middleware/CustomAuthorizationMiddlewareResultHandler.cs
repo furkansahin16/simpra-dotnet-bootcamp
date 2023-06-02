@@ -13,10 +13,10 @@ public class CustomAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewa
             IResponse response;
             if (context.User.Identity!.IsAuthenticated)
             {
-                response = new ErrorResponse(Messages.Unauthorized.Format(context.User.Claims.First(x => x.Type == ClaimTypes.Role).Value), HttpStatusCode.Unauthorized);
-                Log.Warning(
+                response = new ErrorResponse(Messages.User.Unauthorized.Format(context.User.Claims.First(x => x.Type == ClaimTypes.Role).Value), HttpStatusCode.Unauthorized);
+                Log.Error(
                     $"User={context.User.Claims.First(x => x.Type == ClaimTypes.Email).Value} || " +
-                    $"Role={context.User.Claims.Select(x => x.Type == ClaimTypes.Role).ToArray()} || " +
+                    $"Role={context.User.Claims.First(x => x.Type == ClaimTypes.Role).Value.ToJson()} || " +
                     $"Method={context.Request.Method} || " +
                     $"Path={context.Request.Path} || " +
                     "Exception= An unauthorized access has been requested."
@@ -24,15 +24,15 @@ public class CustomAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewa
             }
             else
             {
-                response = new ErrorResponse(Messages.Unauthenticate, HttpStatusCode.Unauthorized);
-                Log.Warning(
+                response = new ErrorResponse(Messages.User.Unauthenticated, HttpStatusCode.Unauthorized);
+                Log.Error(
                     $"Method={context.Request.Method} || " +
                     $"Path={context.Request.Path} || " +
                     "Exception= Access was requested without authentication."
                     );
             }
 
-            context.Response.StatusCode = StatusCodes.Status200OK;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             await context.Response.WriteAsJsonAsync(response);
             return;
         }

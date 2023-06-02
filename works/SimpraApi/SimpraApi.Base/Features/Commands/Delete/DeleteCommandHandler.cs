@@ -12,7 +12,7 @@ public abstract class DeleteCommandHandler<TEntity, TRequest> :
         {
             await Repository.DeleteAsync(Entity!);
             result = (await UnitOfWork.SaveChangesAsync()) ??
-                new SuccessResponse(Messages.DeleteSuccess.Format(typeof(TEntity).Name), HttpStatusCode.OK);
+                new SuccessResponse(Messages.Success.Deleted.Format(typeof(TEntity).Name), HttpStatusCode.OK);
         }
         return result!;
     }

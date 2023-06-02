@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Serilog;
 
 namespace SimpraApi.Persistance.EntityFramework;
 public class UnitOfWork : IUnitOfWork
@@ -31,7 +32,7 @@ public class UnitOfWork : IUnitOfWork
         }
         catch (Exception ex)
         {
-            return GetErrorResponse(ex, Messages.DbError);
+            return GetErrorResponse(ex, Messages.Error.DbSave);
         }
         finally { this.Dispose(); }
     }
@@ -51,7 +52,7 @@ public class UnitOfWork : IUnitOfWork
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                response = GetErrorResponse(ex, Messages.DbTransactionError);
+                response = GetErrorResponse(ex, Messages.Error.DbTransaction);
             }
             finally { this.Dispose(); }
         });

@@ -7,7 +7,8 @@ public class UserProfile : Profile
 			.ForMember(x => x.Email, cfg => cfg.MapFrom(src => src.Email.ToLower()))
 			.ForMember(x => x.FirstName, cfg => cfg.MapFrom(src => src.FirstName.NormalizeString()))
 			.ForMember(x => x.LastName, cfg => cfg.MapFrom(src => src.LastName.NormalizeString()))
-			.ForMember(x => x.Password, cfg => cfg.MapFrom(src => src.Password.CreatePasswordHash()));
+			.ForMember(x => x.Password, cfg => cfg.MapFrom(src => src.Password.CreatePasswordHash()))
+			.ForMember(x => x.PasswordRetryCount, cfg => cfg.Ignore());
 		CreateMap<ChangeUserRoleCommandRequest, User>()
 			.ForMember(x => x.Role, cfg => cfg.MapFrom(src => src.Role.ToLower()));
 		

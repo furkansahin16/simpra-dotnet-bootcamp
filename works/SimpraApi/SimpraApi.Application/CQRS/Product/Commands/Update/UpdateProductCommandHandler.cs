@@ -9,14 +9,14 @@ public class UpdateProductCommandHandler : UpdateCommandHandler<Product, UpdateP
             await Repository.AnyAsync(x => x.Name == request.Name.NormalizeString(), true) &&
             !String.Equals(Entity!.Name, request.Name, StringComparison.OrdinalIgnoreCase))
         {
-            return new ErrorResponse(Messages.UniqueFieldError.Format("Name", request.Name), HttpStatusCode.Forbidden);
+            return new ErrorResponse(Messages.Error.UniqueField.Format("Name", request.Name), HttpStatusCode.Forbidden);
         }
         if (Entity is not null &&
             !string.IsNullOrEmpty(request.CategoryId) &&
             Entity.CategoryId != Guid.Parse(request.CategoryId) &&
             (await UnitOfWork.GetRepository<Category>().GetAsync(x => x.Id == Guid.Parse(request.CategoryId!)) is null))
         {
-            return new ErrorResponse(Messages.GetError.Format(nameof(Category), request.CategoryId.ToString()), HttpStatusCode.NotFound);
+            return new ErrorResponse(Messages.Error.Get.Format(nameof(Category), request.CategoryId.ToString()), HttpStatusCode.NotFound);
         }
         return await base.Handle(request, cancellationToken);
     }

@@ -6,3 +6,4 @@ global using System.Linq.Expressions;
 global using System.Net;
 global using MediatR;
 global using System.Security.Claims;
+global using Serilog;

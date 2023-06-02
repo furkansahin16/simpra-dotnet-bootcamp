@@ -17,7 +17,7 @@ public class ExceptionHandlingMiddleware
                 $"Path={features.Path} || " +
                 $"Exception={features.Error}"
                 );
-            var response = new ErrorResponse(Messages.GeneralError, HttpStatusCode.InternalServerError);
+            var response = new ErrorResponse(Messages.Error.Common, HttpStatusCode.InternalServerError);
             await context.Response.WriteAsJsonAsync(response);
         }
     }

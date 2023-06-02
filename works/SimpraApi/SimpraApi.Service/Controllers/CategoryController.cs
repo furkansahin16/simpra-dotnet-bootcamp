@@ -17,11 +17,11 @@ public class CategoryController : BaseApiController
 
     [HttpPost]
     [Authorize(Policy = Policies.AdminOrManager)]
-    public async Task<IResponse> Create(CreateCategoryCommandRequest request) => await Mediator.Send(request);
+    public async Task<IResponse> Create([FromBody] CreateCategoryCommandRequest request) => await Mediator.Send(request);
 
     [HttpPut]
     [Authorize(Policy = Policies.AdminOrManager)]
-    public async Task<IResponse> Update(UpdateCategoryCommandRequest request) => await Mediator.Send(request);
+    public async Task<IResponse> Update([FromBody] UpdateCategoryCommandRequest request) => await Mediator.Send(request);
 
     [HttpDelete("{Id}")]
     [Authorize(Policy = Policies.AdminOrManager)]

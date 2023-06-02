@@ -17,5 +17,5 @@ public abstract class CommonResponse : IResponse
         this.StatusCode = statusCode;
     }
 
-    public CommonResponse(bool isSuccess) : this(isSuccess, isSuccess ? "Success" : "Error") { }
+    public CommonResponse(bool isSuccess) : this(isSuccess, isSuccess ? Messages.Success.Common : Messages.Error.Common) { }
 }

@@ -7,11 +7,18 @@ namespace SimpraApi.Persistance.EntityFramework;
 public class SimpraDbContext : DbContext
 {
     private readonly IHttpContextAccessor? _contextAccessor;
+    private string CurrentUser = string.Empty;
+    private string UserIdentifier = string.Empty;
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<Product> Category { get; set; } = null!;
     public DbSet<User> User { get; set; } = null!;
     public SimpraDbContext(DbContextOptions<SimpraDbContext> options) : base(options) { }
-    public SimpraDbContext(DbContextOptions<SimpraDbContext> options, IHttpContextAccessor contextAccessor) : base(options) => _contextAccessor = contextAccessor;
+    public SimpraDbContext(DbContextOptions<SimpraDbContext> options, IHttpContextAccessor contextAccessor) : base(options)
+    {
+        _contextAccessor = contextAccessor;
+        GetUserFromRequest();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
@@ -26,50 +33,49 @@ public class SimpraDbContext : DbContext
 
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await SetBaseProperties();
+        SetBaseProperties();
         return await base.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task SetBaseProperties()
+    private void SetBaseProperties()
     {
         var entries = ChangeTracker.Entries<BaseEntity>();
 
-        var user = await GetUserFromRequest();
-        var userName = user is null ? "not-user" : user.Email;
         foreach (var entry in entries)
         {
             switch (entry.State)
             {
-                case EntityState.Added: SetAddedEntity(entry, userName); break;
-                case EntityState.Modified: SetModifiedEntity(entry, userName); break;
-                case EntityState.Deleted: SetDeletedEntity(entry, userName); break;
+                case EntityState.Added: SetAddedEntity(entry); break;
+                case EntityState.Modified: SetModifiedEntity(entry); break;
+                case EntityState.Deleted: SetDeletedEntity(entry); break;
             }
         }
     }
 
-    private async Task<User?> GetUserFromRequest()
+    private void GetUserFromRequest()
     {
+        User? user = null;
         var userId = _contextAccessor?.HttpContext?.User.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         if (userId is not null)
         {
-            var user = await User.FindAsync(Guid.Parse(userId));
+            user = User.Find(Guid.Parse(userId));
             user!.LastActivity = DateTime.UtcNow;
-            return user;
         }
-        return null;
+        this.CurrentUser = user?.ToString() ?? "system";
+        this.UserIdentifier = user?.Email ?? "system";
     }
 
-    private void SetDeletedEntity(EntityEntry<BaseEntity> entry, string user)
+    private void SetDeletedEntity(EntityEntry<BaseEntity> entry)
     {
-        Log.Information("{@entity} is deleted by {@user}", entry.Entity.ToString(), user);
+        Log.Information(Messages.Log.EntityDeleted, entry.Entity.ToString(), CurrentUser.ToString());
         if (entry.Entity is not SoftDeletableEntity entity) return;
-        entity.DeletedBy = user;
+        entity.DeletedBy = UserIdentifier;
         entity.Status = Status.Deleted;
         entry.State = EntityState.Modified;
         entity.DeletedAt = DateTime.UtcNow;
     }
 
-    private void SetModifiedEntity(EntityEntry<BaseEntity> entry, string user)
+    private void SetModifiedEntity(EntityEntry<BaseEntity> entry)
     {
         if (entry.Entity is not AuditableEntity entity)
         {
@@ -80,25 +86,25 @@ public class SimpraDbContext : DbContext
         {
             entity.Status = Status.Updated;
         }
-        entity.UpdatedBy = user;
+        Log.Information(Messages.Log.EntityUpdated, entry.Entity.ToString(), CurrentUser.ToString());
+        entity.UpdatedBy = UserIdentifier;
         entity.UpdatedAt = DateTime.UtcNow;
-        Log.Information("{@entity} is updated by {@user}", entry.Entity.ToString(), user);
     }
 
-    private void SetAddedEntity(EntityEntry<BaseEntity> entry, string user)
+    private void SetAddedEntity(EntityEntry<BaseEntity> entry)
     {
         if (entry.Entity is BaseUser baseUser)
         {
             baseUser.LastActivity = DateTime.UtcNow;
             baseUser.Status = Status.Active;
-            Log.Information("User : {@entity} is signed up.", entry.Entity.ToString());
+            Log.Information(Messages.Log.UserSignedUp, entry.Entity.ToString());
         }
         else
         {
             entry.Entity.Status = Status.Added;
-            entry.Entity.CreatedBy = user;
-            Log.Information("{@entity} is created by {@user}", entry.Entity.ToString(), user);
+            Log.Information(Messages.Log.EntityCreated, entry.Entity.ToString(), CurrentUser.ToString());
         }
+        entry.Entity.CreatedBy = UserIdentifier;
         entry.Entity.CreatedAt = DateTime.UtcNow;
     }
 }

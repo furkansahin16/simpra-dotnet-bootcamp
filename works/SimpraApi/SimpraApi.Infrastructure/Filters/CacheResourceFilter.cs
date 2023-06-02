@@ -25,6 +25,7 @@ public class CacheResourceFilter : IResourceFilter
             string.Equals(context.HttpContext.Request.Method, "GET", StringComparison.OrdinalIgnoreCase))
         {
             var response = GetDataFromCache(context, cachedResult);
+            Log.Information(Messages.Log.ReadFromCache, _cacheKey);
             context.Result = new ObjectResult(response);
         }
     }
@@ -35,10 +36,10 @@ public class CacheResourceFilter : IResourceFilter
         {
             var data = GetResponseData(response!);
             _cache.Set(_cacheKey, data, _duration);
+            Log.Information(Messages.Log.CacheSaved, _cacheKey);
         }
         ClearCache(clearCache);
     }
-
 
     private IResponse GetDataFromCache(ResourceExecutingContext context, IEnumerable<EntityResponse> result)
     {
@@ -47,8 +48,8 @@ public class CacheResourceFilter : IResourceFilter
             var filteredValues = FilterByQuery(context, result);
 
             return filteredValues.Any()
-                ? new SuccessDataResponse<IEnumerable<object>>(filteredValues, String.Format(Messages.ListSuccess, _modelName), HttpStatusCode.OK)
-                : new ErrorResponse(String.Format(Messages.ListError, _modelName), HttpStatusCode.NoContent);
+                ? new SuccessDataResponse<IEnumerable<object>>(filteredValues, Messages.Success.List.Format(_modelName!), HttpStatusCode.OK)
+                : new ErrorResponse(Messages.Error.List.Format(_modelName!), HttpStatusCode.NoContent);
         }
         else if (context.RouteData.Values.ContainsKey("id"))
         {
@@ -56,18 +57,18 @@ public class CacheResourceFilter : IResourceFilter
 
             if (!Guid.TryParse(value, out Guid id))
             {
-                return new ErrorResponse(Messages.ValidationError, HttpStatusCode.Forbidden)
+                return new ErrorResponse(Messages.Error.Validation, HttpStatusCode.Forbidden)
                 {
                     Errors = { $"The value:'{value}' is not valid for Id" }
                 };
             }
             var entity = result.FirstOrDefault(x => x.Id == id.ToString());
             return entity is not null
-                ? new SuccessDataResponse<object>(entity, Messages.GetSuccess.Format(_modelName!), HttpStatusCode.OK)
-                : new ErrorResponse(Messages.GetError.Format(_modelName!, value), HttpStatusCode.NotFound);
+                ? new SuccessDataResponse<object>(entity, Messages.Success.Get.Format(_modelName!), HttpStatusCode.OK)
+                : new ErrorResponse(Messages.Error.Get.Format(_modelName!, value), HttpStatusCode.NotFound);
 
         }
-        return new SuccessDataResponse<IEnumerable<EntityResponse>>(result, String.Format(Messages.ListSuccess, _modelName), HttpStatusCode.OK); ;
+        return new SuccessDataResponse<IEnumerable<EntityResponse>>(result, Messages.Success.List.Format(_modelName!), HttpStatusCode.OK); ;
     }
 
     private IEnumerable<object> FilterByQuery(ResourceExecutingContext context, IEnumerable<object> result)
@@ -134,6 +135,7 @@ public class CacheResourceFilter : IResourceFilter
             Type T2 = innerCache.GetType();
             MethodInfo clearMethod = T2.GetMethod("Clear", BindingFlags.Instance | BindingFlags.Public)!;
             clearMethod.Invoke(innerCache, null);
+            Log.Information(Messages.Log.CacheClear);
         }
     }
 }

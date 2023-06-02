@@ -13,7 +13,7 @@ public abstract class EntityHandler<TEntity> where TEntity : BaseEntity
     {
         Entity = Repository.Find(Guid.Parse(id), Includes);
         response = Entity is null ?
-            new ErrorResponse(Messages.GetError.Format(typeof(TEntity).Name,id), HttpStatusCode.NotFound) :
+            new ErrorResponse(Messages.Error.Get.Format(typeof(TEntity).Name,id), HttpStatusCode.NotFound) :
             null;
         return Entity is not null;
     }

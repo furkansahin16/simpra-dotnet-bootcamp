@@ -6,7 +6,7 @@ public class CreateCategoryCommandHandler : CreateCommandHandler<Category, Creat
     {
         if (await Repository.AnyAsync(x => x.Name == request.Name.NormalizeString(),true))
         {
-            return new ErrorResponse(Messages.UniqueFieldError.Format("Name", request.Name), HttpStatusCode.Forbidden);
+            return new ErrorResponse(Messages.Error.UniqueField.Format("Name", request.Name), HttpStatusCode.Forbidden);
         }
         return await base.Handle(request, cancellationToken);
     }

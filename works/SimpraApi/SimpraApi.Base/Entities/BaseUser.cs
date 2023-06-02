@@ -10,11 +10,8 @@ public abstract class BaseUser : SoftDeletableEntity, IPerson
     public byte[] Password { get; set; } = null!;
     public int PasswordRetryCount { get; set; }
     public DateTime LastActivity { get; set; }
-    public string Role { get; set; } = Roles.Standart;
-    [NotMapped] public override string? CreatedBy => null;
-    [NotMapped] public override string? UpdatedBy => null;
-    [NotMapped] public override string? DeletedBy => null;
+    public string Role { get; set; } = Roles.Standard;
     [NotMapped] public string FullName => FirstName + " " + LastName;
 
-    public override string ToString() => base.ToString() + $" || Email= {this.FullName}";
+    public override string ToString() => base.ToString() + $" || Email= {this.Email}";
 }
