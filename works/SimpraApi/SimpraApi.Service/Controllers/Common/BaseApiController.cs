@@ -3,7 +3,7 @@
 namespace SimpraApi.Service.Controllers;
 
 [Route("api/v1/[controller]")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Policy = Policies.AllUser)]
 public abstract class BaseApiController : ControllerBase
 {
     protected readonly IMediator Mediator;

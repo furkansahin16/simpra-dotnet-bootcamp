@@ -28,6 +28,12 @@ public static class JwtExtension
             };
         });
 
+        services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy(Policies.AdminOrManager, policy => policy.RequireRole(Roles.Admin, Roles.Manager));
+            opt.AddPolicy(Policies.AllUser, policy => policy.RequireAuthenticatedUser());
+        });
+
         return services;
     }
 }

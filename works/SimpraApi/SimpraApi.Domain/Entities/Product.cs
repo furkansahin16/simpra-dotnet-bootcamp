@@ -10,4 +10,5 @@ public class Product : SoftDeletableEntity
     //Navigation Properties
     public virtual Category Category { get; set; } = null!;
     public Guid CategoryId { get; set; }
+    public override string ToString() => base.ToString() + $" || Name= {this.Name}";
 }

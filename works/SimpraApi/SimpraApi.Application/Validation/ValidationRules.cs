@@ -16,7 +16,7 @@ public static class ValidationRules
     {
         return ruleBuilder
             .ValidateEmpty()
-            .Matches(new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$")).WithMessage(Messages.PasswordFormat);
+            .Matches(new Regex("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,32}$")).WithMessage(Messages.PasswordFormat);
     }
     
     public static IRuleBuilderOptions<T, string> ValidateEmpty<T>(this IRuleBuilder<T, string> ruleBuilder)

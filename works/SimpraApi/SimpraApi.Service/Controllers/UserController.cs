@@ -2,6 +2,7 @@
 
 namespace SimpraApi.Service.Controllers;
 
+[Authorize(Roles = Roles.Admin)]
 public class UserController : BaseApiController
 {
 

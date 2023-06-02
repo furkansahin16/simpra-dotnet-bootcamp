@@ -22,7 +22,6 @@ public class Startup
             .AddApplicationServices(Configuration)
             .AddPersistanceServices(Configuration)
             .AddInfrastructureServices();
-
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
@@ -38,26 +37,8 @@ public class Startup
 
         app.UseExceptionHandler(appConfig =>
         {
-            appConfig.Run(async context =>
-            {
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                context.Response.ContentType = "application/json";
-                var features = context.Features.Get<IExceptionHandlerFeature>();
-                if (features is not null)
-                {
-                    Log.Fatal(
-                        $"MethodName={features.Endpoint} || " +
-                        $"Path={features.Path} || " +
-                        $"Exception={features.Error}"
-                        );
-                    var response = new ErrorResponse(Messages.GeneralError, HttpStatusCode.InternalServerError);
-                    await context.Response.WriteAsync(response.ToJson());
-                }
-            });
+            appConfig.UseMiddleware<ExceptionHandlingMiddleware>();
         });
-
-        // TODO : Burayı kontrol et. Middleware çalışmıyor.
-        //app.UseMiddleware<CustomAuthenticationMiddleware>();
 
         app.UseHttpsRedirection();
         app.UseAuthentication();

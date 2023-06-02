@@ -31,6 +31,7 @@ public static class Messages
     public const string TokenError = "Invalid username or password";
     public const string Blocked = "User is blocked";
     public const string Unauthorized = "Role : {0} is anauthorized for this process";
+    public const string Unauthenticate = "You must sign-in or sign-up for this process";
     #endregion
 
     #region ValidationMessages

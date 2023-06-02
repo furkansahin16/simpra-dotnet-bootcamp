@@ -11,4 +11,5 @@ public class Category : SoftDeletableEntity
     {
         Products = new HashSet<Product>();
     }
+    public override string ToString() => base.ToString() + $" || Name= {this.Name}";
 }

@@ -10,8 +10,7 @@ public abstract class CreateCommandHandler<TEntity, TRequest, TResponse> :
     public CreateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork) => _mapper = mapper;
     public async virtual Task<IResponse> Handle(TRequest request, CancellationToken cancellationToken)
     {
-        Entity = _mapper.Map<TEntity>(request);
-        await Repository.AddAsync(_mapper.Map<TEntity>(request));
+        Entity = await Repository.AddAsync(_mapper.Map<TEntity>(request));
 
         return (await UnitOfWork.SaveChangesAsync(cancellationToken) ??
             new SuccessDataResponse<EntityResponse>(_mapper.Map<TResponse>(Entity), Messages.AddSuccess.Format(typeof(TEntity).Name), HttpStatusCode.Created));

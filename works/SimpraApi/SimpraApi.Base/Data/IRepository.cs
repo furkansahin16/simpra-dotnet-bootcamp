@@ -1,9 +1,9 @@
 ﻿namespace SimpraApi.Base;
 public interface IRepository<TEntity> where TEntity : BaseEntity
 {
+    Task<TEntity?> AddAsync(TEntity entity);
+    Task<TEntity?> UpdateAsync(TEntity entity);
     Task DeleteAsync(TEntity entity);
-    Task AddAsync(TEntity entity);
-    Task UpdateAsync(TEntity entity);
     Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression, bool tracking = true, params Expression<Func<TEntity, object>>[]? includes);
     TEntity? Find(Guid key, params Expression<Func<TEntity, object>>[]? includes);
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? filter = null);

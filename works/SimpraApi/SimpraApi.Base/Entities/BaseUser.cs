@@ -15,4 +15,6 @@ public abstract class BaseUser : SoftDeletableEntity, IPerson
     [NotMapped] public override string? UpdatedBy => null;
     [NotMapped] public override string? DeletedBy => null;
     [NotMapped] public string FullName => FirstName + " " + LastName;
+
+    public override string ToString() => base.ToString() + $" || Email= {this.FullName}";
 }

@@ -61,7 +61,7 @@ public class SimpraDbContext : DbContext
 
     private void SetDeletedEntity(EntityEntry<BaseEntity> entry, string user)
     {
-        Log.Information("{@entity} is deleted by {@user}", entry.Entity, user);
+        Log.Information("{@entity} is deleted by {@user}", entry.Entity.ToString(), user);
         if (entry.Entity is not SoftDeletableEntity entity) return;
         entity.DeletedBy = user;
         entity.Status = Status.Deleted;
@@ -82,7 +82,7 @@ public class SimpraDbContext : DbContext
         }
         entity.UpdatedBy = user;
         entity.UpdatedAt = DateTime.UtcNow;
-        Log.Information("{@entity} is updated by {@user}", entry.Entity, user);
+        Log.Information("{@entity} is updated by {@user}", entry.Entity.ToString(), user);
     }
 
     private void SetAddedEntity(EntityEntry<BaseEntity> entry, string user)
@@ -91,13 +91,14 @@ public class SimpraDbContext : DbContext
         {
             baseUser.LastActivity = DateTime.UtcNow;
             baseUser.Status = Status.Active;
+            Log.Information("User : {@entity} is signed up.", entry.Entity.ToString());
         }
         else
         {
             entry.Entity.Status = Status.Added;
             entry.Entity.CreatedBy = user;
+            Log.Information("{@entity} is created by {@user}", entry.Entity.ToString(), user);
         }
         entry.Entity.CreatedAt = DateTime.UtcNow;
-        Log.Information("{@entity} is created by {@user}", entry.Entity, user);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace SimpraApi.Service.Controllers;
 
-[Authorize(Roles = Roles.Manager)]
-[Authorize(Roles = Roles.Standart)]
 public class ProductController : BaseApiController
 {
     public ProductController(IMediator mediator) : base(mediator) { }

@@ -5,4 +5,6 @@ public abstract class BaseEntity : IEntity
     public string Status { get; set; } = null!;
     public virtual string? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
+
+    public override string ToString() => $"Id= {this.Id}";
 }

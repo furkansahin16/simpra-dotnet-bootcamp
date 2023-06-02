@@ -23,11 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpraApi.Persistance", "Si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpraApi.Service", "SimpraApi.Service\SimpraApi.Service.csproj", "{FB97383B-6047-4133-8C58-9D1A4C1AE515}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{79CCA743-726F-43ED-B3BF-EDC62C206623}"
-	ProjectSection(SolutionItems) = preProject
-		Logs\20230601.log = Logs\20230601.log
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
