@@ -17,11 +17,12 @@ public abstract class GetWhereQueryHandler<TEntity, TRequest, TResponse> :
             await Repository.GetAllAsync(false, Includes) :
             await Repository.GetAllAsync(expression, false, Includes);
 
-        await UnitOfWork.SaveChangesAsync();
-
-        return entites.Any()
-            ? new SuccessDataResponse<EntityResponse>(_mapper.Map<List<TResponse>>(entites), Messages.Success.List.Format(typeof(TEntity).Name), HttpStatusCode.OK)
-            : new ErrorResponse(Messages.Error.List.Format(typeof(TEntity).Name), HttpStatusCode.NoContent);
+        return await UnitOfWork.SaveChangesAsync() ??
+            (
+             entites.Any() ?
+             new SuccessDataResponse<EntityResponse>(_mapper.Map<List<TResponse>>(entites), Messages.Success.List.Format(typeof(TEntity).Name), HttpStatusCode.OK) :
+             new ErrorResponse(Messages.Error.List.Format(typeof(TEntity).Name), HttpStatusCode.NoContent)
+            );
     }
     protected Expression<Func<TEntity, bool>>? GetExpression(TRequest request)
     {

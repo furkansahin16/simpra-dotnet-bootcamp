@@ -12,10 +12,11 @@ public abstract class GetAllQueryHandler<TEntity, TRequest, TResponse> :
     {
         var entites = await Repository.GetAllAsync(false, Includes);
 
-        await UnitOfWork.SaveChangesAsync();
-
-        return entites.Any() ?
-            new SuccessDataResponse<EntityResponse>(_mapper.Map<List<TResponse>>(entites),Messages.Success.List.Format(typeof(TEntity).Name),HttpStatusCode.OK) :
-            new ErrorResponse(Messages.Error.List.Format(typeof(TEntity).Name),HttpStatusCode.NoContent);
+        return await UnitOfWork.SaveChangesAsync() ??
+            (
+            entites.Any() ?
+            new SuccessDataResponse<EntityResponse>(_mapper.Map<List<TResponse>>(entites), Messages.Success.List.Format(typeof(TEntity).Name), HttpStatusCode.OK) :
+            new ErrorResponse(Messages.Error.List.Format(typeof(TEntity).Name), HttpStatusCode.NoContent)
+            );
     }
 }
