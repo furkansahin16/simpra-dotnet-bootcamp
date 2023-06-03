@@ -1,4 +1,6 @@
-﻿namespace SimpraApi.Base;
+﻿using LinqKit;
+
+namespace SimpraApi.Base;
 public abstract class GetWhereQueryHandler<TEntity, TRequest, TResponse> :
     EntityHandler<TEntity>,
     IRequestHandler<TRequest, IResponse>
@@ -23,8 +25,8 @@ public abstract class GetWhereQueryHandler<TEntity, TRequest, TResponse> :
     }
     protected Expression<Func<TEntity, bool>>? GetExpression(TRequest request)
     {
-        var expressions = new List<Expression<Func<TEntity, bool>>>();
         var filters = request.GetType().GetProperties();
+        var predicate = PredicateBuilder.New<TEntity>();
 
         foreach (var filter in filters)
         {
@@ -33,32 +35,25 @@ public abstract class GetWhereQueryHandler<TEntity, TRequest, TResponse> :
             {
                 var parameter = Expression.Parameter(typeof(TEntity));
                 var propertyAccess = Expression.Property(parameter, filter.Name);
+                Expression filterExpression;
                 if (filter.PropertyType == typeof(string))
                 {
                     var filterValue = Expression.Constant(value!.ToString()!.Trim().ToLower());
                     var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
-                    var containsExpression = Expression.Call(propertyAccess, containsMethod!, filterValue);
-                    var expression = Expression.Lambda<Func<TEntity, bool>>(containsExpression, parameter);
-                    expressions.Add(expression);
+                    filterExpression = Expression.Call(propertyAccess, containsMethod!, filterValue);
                 }
                 else if (filter.PropertyType == typeof(int))
                 {
                     var filterValue = Expression.Constant(value);
                     var equalsMethod = typeof(int).GetMethod("Equals", new[] { typeof(int) });
-                    var equalsExpression = Expression.Call(propertyAccess, equalsMethod!, filterValue);
-                    var expression = Expression.Lambda<Func<TEntity, bool>>(equalsExpression, parameter);
-                    expressions.Add(expression);
+                    filterExpression = Expression.Call(propertyAccess, equalsMethod!, filterValue);
                 }
+                else continue;
+                var expression = Expression.Lambda<Func<TEntity, bool>>(filterExpression, parameter);
+                predicate = predicate.And(expression);
             }
         }
 
-        var finalExpression = expressions.Aggregate((Expression<Func<TEntity, bool>>)null, (current, expression) =>
-        {
-            if (current == null) return expression;
-            var invoked = Expression.Invoke(expression, current.Parameters);
-            return Expression.Lambda<Func<TEntity, bool>>(Expression.AndAlso(current.Body, invoked), current.Parameters);
-        });
-
-        return finalExpression;
+        return predicate.Body.NodeType == ExpressionType.Constant ? null : predicate;
     }
 }

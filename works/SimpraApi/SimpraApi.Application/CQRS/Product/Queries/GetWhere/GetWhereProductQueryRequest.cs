@@ -2,6 +2,6 @@
 
 public class GetWhereProductQueryRequest : GetWhereQueryRequest
 {
-    public string Name { get; set; } = null!;
-    public int CategoryId { get; set; }
+    public string? Name { get; set; }
+    public string? CategoryId { get; set; }
 }

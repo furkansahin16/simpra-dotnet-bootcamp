@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using SimpraApi.Infrastructure;
-using System.Net;
-
-namespace SimpraApi.Service;
+﻿namespace SimpraApi.Service;
 
 public class Startup
 {
